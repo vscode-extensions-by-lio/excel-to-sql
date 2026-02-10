@@ -8,6 +8,8 @@
     "type": "git",
     "url": "https://github.com/hellolio/vscode-extension-excel-to-sql"
   },
+  "icon": "icon.png",
+  "license": "Apache-2.0",
   "engines": {
     "vscode": "^1.80.0"
   },
