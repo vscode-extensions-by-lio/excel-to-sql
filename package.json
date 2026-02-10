@@ -3,6 +3,7 @@
   "displayName": "excel-to-sql",
   "description": "Convert the data in Excel into SQL for easier testing.",
   "version": "0.0.1",
+  "publisher": "hellolio",
   "engines": {
     "vscode": "^1.80.0"
   },
