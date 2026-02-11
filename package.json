@@ -2,11 +2,11 @@
   "name": "excel-to-sql",
   "displayName": "excel-to-sql",
   "description": "Convert the data in Excel into SQL for easier testing.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "hellolio",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hellolio/vscode-extension-excel-to-sql"
+    "url": "https://github.com/vscode-extensions-by-lio/excel-to-sql"
   },
   "icon": "icon.png",
   "license": "Apache-2.0",

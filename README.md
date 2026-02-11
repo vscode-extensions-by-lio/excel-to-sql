@@ -29,26 +29,25 @@ The generated SQL will open in a new untitled editor.
 ---
 
 ## Supported Format
-
 ```text
 tableName: students
 data:
 id	name	age
-1	Tom	18
-2	Jerry	null
-```
-
-## Multiple blocks are supported:
-```text
-tableName: students
-data:
-id	name	age
-1	Tom	18
+1	To'm	18
 
 tableName: teachers
 data:
 id	name
-1	Alice
+1	Al"ice
+```
+
+## Example Output
+```sql
+INSERT INTO students (id, name, age) VALUES
+('1', 'To''m', '18');
+
+INSERT INTO teachers (id, name) VALUES
+('1', 'Al"ice');
 ```
 
 ## Rules
@@ -60,12 +59,6 @@ id	name
 - Empty cells → empty string ('')
 - Other values are inserted as quoted strings
 
-## Example Output
-```sql
-INSERT INTO students (id, name, age) VALUES
-('1', 'Tom', '18'),
-('2', 'Jerry', NULL);
-```
 
 ## Installation From VS Code Marketplace (coming soon) or manually:
 `code --install-extension excel-to-sql.vsix`
