@@ -67,4 +67,5 @@ INSERT INTO teachers (id, name) VALUES
 ```cmd
 npm install
 npm run compile
+vsce package
 ```
