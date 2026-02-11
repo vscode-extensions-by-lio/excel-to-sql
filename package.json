@@ -2,7 +2,7 @@
   "name": "excel-to-sql",
   "displayName": "excel-to-sql",
   "description": "Convert the data in Excel into SQL for easier testing.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "hellolio",
   "repository": {
     "type": "git",
