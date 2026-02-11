@@ -25,7 +25,7 @@ export async function handleSqlResult(
   if (action.label === 'Open new file') {
     const doc = await vscode.workspace.openTextDocument({
       language: 'sql',
-      content: '\n' + sql
+      content: sql
     });
     await vscode.window.showTextDocument(doc);
   }

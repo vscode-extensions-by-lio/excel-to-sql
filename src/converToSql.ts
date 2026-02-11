@@ -51,7 +51,7 @@ function convertCell(text: string): string {
     });
 
     results.push(
-      `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES\n${values.join(',\n')};`
+      `\nINSERT INTO ${tableName} (${columns.join(', ')}) VALUES\n${values.join(',\n')};\n`
     );
   }
 
@@ -69,7 +69,7 @@ function convertCell(text: string): string {
       continue;
     }
 
-    if (line === 'data:') {
+    if (line.startsWith('data:')) {
       column = true;
       continue;
     }
