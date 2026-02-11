@@ -16,8 +16,18 @@ function convertCell(text: string): string {
 
   function flush() {
     if (columns.length === 0 || rows.length === 0) {  return; };
+
     if (!tableName) {
       tableName = 'un_named_table';
+    }
+
+    const nullIndexes = columns
+      .map((c, i) => /^null$/i.test(c) ? i : -1)
+      .filter(i => i !== -1);
+
+    if (nullIndexes.length) {
+      columns = columns.filter((_, i) => !nullIndexes.includes(i));
+      rows = rows.map(r => r.filter((_, i) => !nullIndexes.includes(i)));
     }
 
     const values = rows.map(row => {
@@ -64,7 +74,7 @@ function convertCell(text: string): string {
       continue;
     }
 
-    if (column && line !== '') {
+    if (column && line !== '' && !line.startsWith('\/\/')) {
       columns = line
         .split('\t')
         .map(v => v.trim());
@@ -73,7 +83,7 @@ function convertCell(text: string): string {
       continue;
     }
 
-    if (inData && line !== '') {
+    if (inData && line !== '' && !line.startsWith('\/\/')) {
       rows.push(line.split('\t').map(v => v));
     }
   }

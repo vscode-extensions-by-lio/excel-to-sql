@@ -58,6 +58,8 @@ INSERT INTO teachers (id, name) VALUES
 - null / NULL → SQL NULL
 - Empty cells → empty string ('')
 - Other values are inserted as quoted strings
+- ignore columns whose column names are `null`
+- skip start with `//`
 
 
 ## Installation From VS Code Marketplace (coming soon) or manually:
