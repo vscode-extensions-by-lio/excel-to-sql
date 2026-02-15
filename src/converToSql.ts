@@ -14,9 +14,9 @@ export function convertExcelToSql(text: string): string {
     }
   }
   
-  return Object.values(sqlMap)
-    .map(v => String(v))
-    .join('\n\n\n');
+  return '\n' 
+    + Object.values(sqlMap).map(v => String(v)).join('\n\n\n')
+    + '\n';
 }
 
 function excelToDbMap(input: string): { result: DbMap; dbConns: Record<string, PgConn> } {
