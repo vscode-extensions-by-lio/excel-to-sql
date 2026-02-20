@@ -20,7 +20,7 @@ export function convertExcelToSql(text: string): string {
 }
 
 function excelToDbMap(input: string): { result: DbMap; dbConns: Record<string, PgConn> } {
-  const lines = input
+  const lines = (input+'\ntable')
     .split(/\r?\n/)
     // .map(l => l.trimEnd())
     .filter(l => l.length);
@@ -47,7 +47,7 @@ function excelToDbMap(input: string): { result: DbMap; dbConns: Record<string, P
     if (lines[i]?.startsWith("db")) {
       const parts = lines[i].split("\t");
 
-      const db = parts[0].replace("db", "");
+      const db = parts[0].replace("db", "index");
 
       const conn: any = {};
 
@@ -70,8 +70,39 @@ function excelToDbMap(input: string): { result: DbMap; dbConns: Record<string, P
 
     // ----- tables
     if (lines[i]?.startsWith("table")) {
+
+      // ----- build dbmap
+      if (isOver) {
+        for (const db of Object.keys(cols)) {
+          // if (!Object.keys(tables).length) {
+          //   Object.keys(cols).forEach(k => tables[k] = "untable");
+          // }
+
+          const columns = cols[db];
+          const table = tables[db];
+
+          let dbTable: DbTable = {
+            table,
+            columns,
+            data: [...rows]
+          };
+
+          dbTable = escapeValue(dbTable);
+
+          if (!result[db]) {
+            result[db] = [dbTable];
+          } else {
+            result[db].push(dbTable);
+          }
+        }
+        tables = {};
+        cols = {};
+        rows = [];
+        isOver = false;
+      }
+
       const [k,v] = lines[i].split("\t");
-      tables[k.replace("table","")] = v || "untable";
+      tables[k.replace("table","index")] = v || "untable";
       i++;
       continue;
     }
@@ -79,7 +110,7 @@ function excelToDbMap(input: string): { result: DbMap; dbConns: Record<string, P
     // ----- cols
     if (lines[i]?.startsWith("col")) {
       const parts = lines[i].split("\t");
-      cols[parts[0].replace("col","")] = parts.slice(1);
+      cols[parts[0].replace("col","index")] = parts.slice(1);
       i++;
       continue;
     }
@@ -92,35 +123,6 @@ function excelToDbMap(input: string): { result: DbMap; dbConns: Record<string, P
       continue;
     }
 
-    // ----- build dbmap
-    if (isOver) {
-      for (const db of Object.keys(cols)) {
-        // if (!Object.keys(tables).length) {
-        //   Object.keys(cols).forEach(k => tables[k] = "untable");
-        // }
-
-        const columns = cols[db];
-        const table = tables[db];
-
-        let dbTable: DbTable = {
-          table,
-          columns,
-          data: [...rows]
-        };
-
-        dbTable = escapeValue(dbTable);
-
-        if (!result[db]) {
-          result[db] = [dbTable];
-        } else {
-          result[db].push(dbTable);
-        }
-      }
-      tables = {};
-      cols = {};
-      rows = [];
-      isOver = false;
-    }
     i++;
 
   }
@@ -158,6 +160,10 @@ function dbMapToInsertSql(dbMap: DbMap): Record<string, string> {
     const tables = dbMap[db];
 
     const sqlBlocks: string[] = [];
+    const sql = tables
+                  .map(item => `truncate table ${item.table};`)
+                  .join('\n');
+    sqlBlocks.push(sql);
 
     for (const t of tables) {
       if (!t.data.length) { continue; };

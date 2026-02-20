@@ -49,8 +49,39 @@ Each data line represents a single record
 
 ---
 
-## Supported Format
-example:
+## Supported Format1
+
+```text
+table	students1				
+col	id	name	age	uid
+data	1	xiaohong	12	6
+data	2	xialv	13	7
+data	3	xiaobai	16	8
+			
+table	students2				
+col	id	name	age	uid
+data	1	xiaohong	12	6
+data	2	xialv	13	7
+data	3	xiaobai	16	8
+
+```
+
+## Example Output1
+```sql
+
+INSERT INTO students1 (id, name, age, uid) VALUES
+('1', 'xiaohong', '12', '6'),
+('2', 'xialv', '13', '7'),
+('3', 'xiaobai', '16', '8');
+INSERT INTO students2 (id, name, age, uid) VALUES
+('1', 'xiaohong', '12', '6'),
+('2', 'xialv', '13', '7'),
+('3', 'xiaobai', '16', '8');
+
+```
+
+## Supported Format2
+
 ![example](./ex.png)
 ```text
 					
@@ -82,7 +113,7 @@ data	13	3	xiaobai	16	8
 
 ```
 
-## Example Output
+## Example Output2
 ```sql
 INSERT INTO students1 (id, name, age, uid) VALUES
 ('1', 'xiaohong', '12', '6'),
